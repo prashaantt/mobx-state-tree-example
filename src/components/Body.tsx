@@ -3,8 +3,9 @@ import { observer, inject } from 'mobx-react';
 
 import { RouteComponentProps } from "react-router";
 import { RouterParams } from "../routes";
-import { subredditStore } from '../SubredditStore';
-import { Spinner } from '@blueprintjs/core';
+import { subredditStore } from '../stores/SubredditStore';
+import { Spinner, Button } from '@blueprintjs/core';
+import { Post } from './Post';
 
 interface InjectedProps extends RouteComponentProps<RouterParams> {
     subredditStore: typeof subredditStore;
@@ -30,11 +31,7 @@ export default class Body extends React.Component {
         }
 
         return (
-            <ul>
-                {
-                    data.map(child => <li key={child.data.id}>{child.data.title}</li>)
-                }
-            </ul>
+            <div>{data.map(child => <Post {...child.data} />)}</div>
         )
     }
 

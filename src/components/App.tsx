@@ -4,7 +4,7 @@ import { Route } from "react-router";
 import { Provider } from 'mobx-react';
 
 import { Nav } from "./Nav";
-import { subredditStore } from '../SubredditStore';
+import { subredditStore } from '../stores/SubredditStore';
 
 export default class App extends React.Component {
     render() {

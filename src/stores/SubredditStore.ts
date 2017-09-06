@@ -1,6 +1,6 @@
 import { types, process } from "mobx-state-tree";
 
-const Story = types.model({
+export const Story = types.model({
     id: types.string,
     domain: types.string,
     subreddit: types.string,
