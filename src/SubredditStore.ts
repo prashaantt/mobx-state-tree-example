@@ -1,30 +1,7 @@
 import { types, process } from "mobx-state-tree";
 
-// interface RedditStoryData {
-//     domain: string;
-//     subreddit: string;
-//     title: string;
-//     permalink: string;
-//     url: string;
-//     author: string;
-//     num_comments: number;
-// }
-
-interface RedditStory {
-    kind: string;
-    data: typeof Subreddit.Type;
-}
-
-interface RedditResponseData {
-    children: RedditStory[];
-}
-
-interface RedditResponse {
-    kind: string;
-    data: RedditResponseData;
-}
-
-const Subreddit = types.model({
+const Story = types.model({
+    id: types.string,
     domain: types.string,
     subreddit: types.string,
     title: types.string,
@@ -34,32 +11,38 @@ const Subreddit = types.model({
     num_comments: types.number
 });
 
-const SubredditStore = types.model({
-    subs: types.map(Subreddit),
-    count: types.number
-}).actions((self) => {
-    const addData = (sub: string, data: typeof Subreddit.Type) => {
-        self.subs.set(sub, data)
-    }
+const StoryModel = types.model({
+    data: types.late(() => Story)
+})
 
+const SubredditData = types.model({
+    children: types.array(StoryModel)
+})
+
+const RedditResponse = types.model({
+    data: types.reference(SubredditData)
+});
+
+const SubredditStore = types.model({
+    subs: types.map(types.array(StoryModel)),
+}).actions(self => {
     function* fetchSub(subreddit: string) {
         if (self.subs.get(subreddit)) {
             return;
         }
 
         try {
-            const sub: RedditResponse = yield fetch(`https://www.reddit.com/r/${subreddit}.json`)
+            const sub: typeof RedditResponse.Type = yield fetch(`https://www.reddit.com/r/${subreddit}.json`)
                 .then(res => res.json());
-            self.subs.set(subreddit, sub.data.children[0].data);
+            self.subs.set(subreddit, sub.data.children)
         } catch (e) {
             console.error(e);
         }
     }
 
-    return { addData, fetchSub: process(fetchSub) };
+    return { fetchSub: process(fetchSub) };
 });
 
 export const subredditStore = SubredditStore.create({
-    subs: {},
-    count: 0
+    subs: {}
 });

@@ -29,7 +29,13 @@ export default class Body extends React.Component {
             return <Spinner />
         }
 
-        return <p>{data.title}</p>
+        return (
+            <ul>
+                {
+                    data.map(child => <li key={child.data.id}>{child.data.title}</li>)
+                }
+            </ul>
+        )
     }
 
     render() {
@@ -37,11 +43,7 @@ export default class Body extends React.Component {
         return (
             <div className="pt-running-text">
                 <h1>{match.url}</h1>
-                <ul>
-                    {
-                        this.renderList()
-                    }
-                </ul>
+                {this.renderList()}
             </div>
         )
     }
