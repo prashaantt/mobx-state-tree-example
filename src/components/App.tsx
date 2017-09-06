@@ -1,38 +1,41 @@
 import * as React from 'react';
 import Loadable from 'react-loadable';
-import { Spinner } from '@blueprintjs/core';
 import { Route } from "react-router";
+import { Provider } from 'mobx-react';
 
 import { Nav } from "./Nav";
+import { subredditStore } from '../SubredditStore';
 
 export default class App extends React.Component {
     render() {
         return (
-            <div>
-                <Nav />
-                <Route
-                    path="/"
-                    exact
-                    component={
-                        Loadable({
-                            loader: () => import(/* webpackChunkName: "home" */ './Home'),
-                            loading: () => <Spinner />
-                        }) } />
-                <Route
-                    path="/favourites"
-                    component={
-                        Loadable({
-                            loader: () => import(/* webpackChunkName: "favourites" */ './Favourites'),
-                            loading: () => <Spinner />
-                        }) } />
-                <Route
-                    path="/r/:subreddit"
-                    component={
-                        Loadable({
-                            loader: () => import(/* webpackChunkName: "body" */ './Body'),
-                            loading: () => <Spinner />
-                        }) } />
-            </div>
+            <Provider subredditStore={ subredditStore }>
+                <div>
+                    <Nav />
+                    <Route
+                        path="/"
+                        exact
+                        component={
+                            Loadable({
+                                loader: () => import(/* webpackChunkName: "home" */ './Home'),
+                                loading: () => null
+                            }) } />
+                    <Route
+                        path="/favourites"
+                        component={
+                            Loadable({
+                                loader: () => import(/* webpackChunkName: "favourites" */ './Favourites'),
+                                loading: () => null
+                            }) } />
+                    <Route
+                        path="/r/:subreddit"
+                        component={
+                            Loadable({
+                                loader: () => import(/* webpackChunkName: "body" */ './Body'),
+                                loading: () => null
+                            }) } />
+                </div>
+            </Provider>
         )
     }
 }

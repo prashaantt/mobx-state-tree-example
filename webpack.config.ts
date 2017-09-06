@@ -6,6 +6,7 @@ export default {
     entry: {
         index: './src/Client.tsx'
     },
+    devtool: "cheap-module-source-map",
     plugins: [
         new WatchIgnorePlugin([
             resolve('webpack.config.ts')
