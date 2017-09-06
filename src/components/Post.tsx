@@ -20,7 +20,7 @@ export class Post extends React.Component<PostProps> {
     render() {
         let starred = false;
         const { favouritesStore } = this.injectedProps;
-        const { subreddit, id, title, url } = this.props;
+        const { subreddit, id, title, url, author, domain, num_comments, permalink } = this.props;
         const subStars = favouritesStore.starredInSub.get(subreddit)
         if (subStars) {
             starred = subStars.starredPostIds.find(post => post === id) !== undefined;
@@ -33,6 +33,16 @@ export class Post extends React.Component<PostProps> {
                     onClick={ () => favouritesStore.toggleStar(subreddit, id) }
                 />
                 <a href={ url } target="new">{ title }</a>
+                <p>
+                    <small className="pt-text-muted">
+                        <a
+                            target="new"
+                            href={ `https://reddit.com/${permalink}` }
+                        >
+                            { `${num_comments} comments` }
+                        </a> | { author } | { domain }
+                    </small>
+                </p>
             </div>
         )
     }
