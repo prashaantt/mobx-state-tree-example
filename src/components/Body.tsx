@@ -31,7 +31,7 @@ export default class Body extends React.Component {
         }
 
         return (
-            <div>{data.map(child => <Post {...child.data} />)}</div>
+            <div>{data.map(post => <Post key={post.data.id} {...post.data} />)}</div>
         )
     }
 

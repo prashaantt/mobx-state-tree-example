@@ -5,11 +5,12 @@ import { Provider } from 'mobx-react';
 
 import { Nav } from "./Nav";
 import { subredditStore } from '../stores/SubredditStore';
+import { favouritesStore } from '../stores/FavouritesStore';
 
 export default class App extends React.Component {
     render() {
         return (
-            <Provider subredditStore={ subredditStore }>
+            <Provider subredditStore={ subredditStore } favouritesStore={ favouritesStore }>
                 <div>
                     <Nav />
                     <Route
