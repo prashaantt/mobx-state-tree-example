@@ -32,7 +32,7 @@ export class Post extends React.Component<PostProps> {
                     iconName={ starred ? "star" : "star-empty" }
                     onClick={ () => favouritesStore.toggleStar(subreddit, id) }
                 />
-                <a href={ url }>{ title }</a>
+                <a href={ url } target="new">{ title }</a>
             </div>
         )
     }
