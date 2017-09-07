@@ -34,13 +34,10 @@ export const Post = observer((props: PostProps) => {
                 onClick={ () => props.onToggle(props.subreddit, props.id) }
             />
             <div>
-                <a href={ props.url } target="new">{ props.title }</a>
+                <a href={ props.url } target="_blank">{ props.title }</a>
                 <p>
                     <small className="pt-text-muted">
-                        <a
-                            target="new"
-                            href={ `https://reddit.com/${props.permalink}` }
-                        >
+                        <a target="_blank" href={ `https://reddit.com/${props.permalink}` }>
                             { `${props.num_comments} comments` }
                         </a> | { props.author } | { props.domain }{ props.showSubreddit ? <span>| { getLink() }</span> : "" }
                     </small>
