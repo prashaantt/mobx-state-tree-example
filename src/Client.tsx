@@ -9,7 +9,7 @@ ReactDOM.render(
     <BrowserRouter>
         <div>
             <App />
-            <DevTools />
+            <DevTools position={ { bottom: 0, right: 20 } } />
         </div>
     </BrowserRouter>,
     document.getElementById("app")
