@@ -31,7 +31,7 @@ export default class Body extends React.Component {
         }
 
         return (
-            <div>{data.map(post => <PostContainer key={post.data.id} {...post.data} />)}</div>
+            <div>{ data.map(post => <PostContainer key={ post.data.id } {...post.data} />) }</div>
         )
     }
 
@@ -39,8 +39,8 @@ export default class Body extends React.Component {
         const { match } = this.injectedProps;
         return (
             <div className="pt-running-text">
-                <h1>{match.url}</h1>
-                {this.renderList()}
+                <h1>{ match.url }</h1>
+                { this.renderList() }
             </div>
         )
     }

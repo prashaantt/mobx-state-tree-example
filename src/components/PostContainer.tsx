@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { observer, inject } from 'mobx-react';
-import { Button } from '@blueprintjs/core';
+
 import { Story } from '../stores/SubredditStore';
 import { FavouritesStore } from '../stores/FavouritesStore';
 import { Post } from './Post';

@@ -23,7 +23,7 @@ const RedditResponse = types.model({
     data: types.reference(SubredditData)
 });
 
-const SubredditStore = types.model({
+export const SubredditStore = types.model({
     subs: types.map(types.array(StoryModel)),
 }).actions(self => {
     function* fetchSub(subreddit: string) {

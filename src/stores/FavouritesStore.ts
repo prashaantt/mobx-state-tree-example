@@ -1,4 +1,5 @@
 import { types } from "mobx-state-tree";
+import { TimeTraveller } from "./TimeTraveller";
 
 const SubredditStars = types.model({
     starredPostIds: types.array(types.string)
@@ -22,7 +23,8 @@ export const FavouritesStore = types.model({
     }
 }));
 
-
 export const favouritesStore = FavouritesStore.create({
     starredInSub: {}
 });
+
+export const favouritesTimeTraveler = new TimeTraveller(favouritesStore, { starredInSub: {} });
