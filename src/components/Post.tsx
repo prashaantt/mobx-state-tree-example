@@ -1,49 +1,50 @@
 import * as React from 'react';
-import { observer, inject } from 'mobx-react';
 import { Button } from '@blueprintjs/core';
-import { Story } from '../stores/SubredditStore';
-import { FavouritesStore } from '../stores/FavouritesStore';
+import { Link } from 'react-router-dom';
 
-type PostProps = typeof Story.Type;
-
-interface InjectedProps extends PostProps {
-    favouritesStore: typeof FavouritesStore.Type;
+interface PostProps {
+    starred: boolean;
+    subreddit: string;
+    id: string;
+    onToggle: (subreddit: string, postId: string) => void;
+    url: string;
+    title: string;
+    num_comments: number;
+    author: string;
+    domain: string;
+    permalink: string;
+    showSubreddit?: boolean;
 }
 
-@inject("favouritesStore")
-@observer
-export class Post extends React.Component<PostProps> {
-    private get injectedProps() {
-        return this.props as InjectedProps;
-    }
+export const Post = (props: PostProps) => {
+    const { subreddit, id, starred, onToggle, url, title, num_comments, permalink, author, domain, showSubreddit } = props;
+    let link: React.ReactElement<any>;
 
-    render() {
-        let starred = false;
-        const { favouritesStore } = this.injectedProps;
-        const { subreddit, id, title, url, author, domain, num_comments, permalink } = this.props;
-        const subStars = favouritesStore.starredInSub.get(subreddit)
-        if (subStars) {
-            starred = subStars.starredPostIds.find(post => post === id) !== undefined;
+    function getLink() {
+        if (showSubreddit) {
+            const sub = `/r/${subreddit}`;
+            return <Link to={ sub }>{ sub }</Link>
         }
-        return (
-            <div className="pt-card pt-elevation-0" key={ id }>
-                <Button
-                    className="pt-minimal"
-                    iconName={ starred ? "star" : "star-empty" }
-                    onClick={ () => favouritesStore.toggleStar(subreddit, id) }
-                />
-                <a href={ url } target="new">{ title }</a>
-                <p>
-                    <small className="pt-text-muted">
-                        <a
-                            target="new"
-                            href={ `https://reddit.com/${permalink}` }
-                        >
-                            { `${num_comments} comments` }
-                        </a> | { author } | { domain }
-                    </small>
-                </p>
-            </div>
-        )
+        return null;
     }
+    return (
+        <div className="pt-card pt-elevation-0" key={ id }>
+            <Button
+                className="pt-minimal"
+                iconName={ starred ? "star" : "star-empty" }
+                onClick={ () => onToggle(subreddit, id) }
+            />
+            <a href={ url } target="new">{ title }</a>
+            <p>
+                <small className="pt-text-muted">
+                    <a
+                        target="new"
+                        href={ `https://reddit.com/${permalink}` }
+                    >
+                        { `${num_comments} comments` }
+                    </a> | { author } | { domain }{ showSubreddit ? <span>| { getLink() }</span> : "" }
+                </small>
+            </p>
+        </div>
+    )
 }

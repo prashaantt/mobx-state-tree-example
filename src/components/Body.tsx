@@ -5,7 +5,7 @@ import { RouteComponentProps } from "react-router";
 import { RouterParams } from "../routes";
 import { subredditStore } from '../stores/SubredditStore';
 import { Spinner, Button } from '@blueprintjs/core';
-import { Post } from './Post';
+import { PostContainer } from './PostContainer';
 
 interface InjectedProps extends RouteComponentProps<RouterParams> {
     subredditStore: typeof subredditStore;
@@ -31,7 +31,7 @@ export default class Body extends React.Component {
         }
 
         return (
-            <div>{data.map(post => <Post key={post.data.id} {...post.data} />)}</div>
+            <div>{data.map(post => <PostContainer key={post.data.id} {...post.data} />)}</div>
         )
     }
 

@@ -2,6 +2,7 @@ import * as React from 'react';
 import { observer, inject } from 'mobx-react';
 import { FavouritesStore } from '../stores/FavouritesStore';
 import { subredditStore, Story } from '../stores/SubredditStore';
+import { Post } from './Post';
 
 interface InjectedProps {
     favouritesStore: typeof FavouritesStore.Type;
@@ -13,6 +14,10 @@ interface InjectedProps {
 export default class Favourites extends React.Component {
     private get injectedProps() {
         return this.props as InjectedProps;
+    }
+
+    onToggle = (subreddit: string, postId: string) => {
+        this.injectedProps.favouritesStore.toggleStar(subreddit, postId);
     }
 
     render() {
@@ -28,9 +33,20 @@ export default class Favourites extends React.Component {
         return (
             <div className="pt-running-text">
                 <h1>All your favourites</h1>
-                <ul>
-                    { starredPosts.map(post => <li key={ post.id }>{ post.title }</li>) }
-                </ul>
+                <div>
+                    {
+                        starredPosts.length > 0 ?
+                            starredPosts.map(post =>
+                                <Post
+                                    key={ post.id }
+                                    {...post}
+                                    starred
+                                    onToggle={ this.onToggle }
+                                    showSubreddit
+                                />)
+                            : <p>Nothing here yet, favourite some posts first!</p>
+                    }
+                </div>
             </div>
         )
     }
