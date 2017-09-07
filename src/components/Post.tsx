@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { observer } from 'mobx-react';
 import { Button } from '@blueprintjs/core';
 import { Link } from 'react-router-dom';
 
@@ -16,35 +17,35 @@ interface PostProps {
     showSubreddit?: boolean;
 }
 
-export const Post = (props: PostProps) => {
-    const { subreddit, id, starred, onToggle, url, title, num_comments, permalink, author, domain, showSubreddit } = props;
-    let link: React.ReactElement<any>;
-
+export const Post = observer((props: PostProps) => {
     function getLink() {
-        if (showSubreddit) {
-            const sub = `/r/${subreddit}`;
+        if (props.showSubreddit) {
+            const sub = `/r/${props.subreddit}`;
             return <Link to={ sub }>{ sub }</Link>
         }
         return null;
     }
+
     return (
-        <div className="pt-card pt-elevation-0" key={ id }>
+        <div className="pt-card pt-elevation-0 post" key={ props.id }>
             <Button
                 className="pt-minimal"
-                iconName={ starred ? "star" : "star-empty" }
-                onClick={ () => onToggle(subreddit, id) }
+                iconName={ props.starred ? "star" : "star-empty" }
+                onClick={ () => props.onToggle(props.subreddit, props.id) }
             />
-            <a href={ url } target="new">{ title }</a>
-            <p>
-                <small className="pt-text-muted">
-                    <a
-                        target="new"
-                        href={ `https://reddit.com/${permalink}` }
-                    >
-                        { `${num_comments} comments` }
-                    </a> | { author } | { domain }{ showSubreddit ? <span>| { getLink() }</span> : "" }
-                </small>
-            </p>
+            <div>
+                <a href={ props.url } target="new">{ props.title }</a>
+                <p>
+                    <small className="pt-text-muted">
+                        <a
+                            target="new"
+                            href={ `https://reddit.com/${props.permalink}` }
+                        >
+                            { `${props.num_comments} comments` }
+                        </a> | { props.author } | { props.domain }{ props.showSubreddit ? <span>| { getLink() }</span> : "" }
+                    </small>
+                </p>
+            </div>
         </div>
     )
-}
+});
