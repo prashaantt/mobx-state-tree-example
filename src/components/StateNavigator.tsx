@@ -1,6 +1,5 @@
 import * as React from 'react';
 import { Button } from '@blueprintjs/core';
-import { observer } from 'mobx-react';
 
 import { favouritesTimeTraveler } from '../stores/FavouritesStore';
 
@@ -8,7 +7,6 @@ interface StateNavigatorProps {
     direction: "left" | "right";
 }
 
-@observer
 export class StateNavigator extends React.Component<StateNavigatorProps> {
     onClick = () => {
         if (this.props.direction === "left") {
