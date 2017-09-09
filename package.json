@@ -5,7 +5,7 @@
   "main": "index.js",
   "private": true,
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "ts-node -O '{\"module\":\"commonjs\"}' -F node_modules/.bin/tape **/*.spec.ts",
     "start": "ts-node -O '{\"module\":\"commonjs\"}' node_modules/.bin/webpack-dev-server"
   },
   "keywords": [],
@@ -32,8 +32,10 @@
     "react-router-dom": "^4.2.2"
   },
   "devDependencies": {
+    "@types/tape": "^4.2.30",
     "@types/webpack": "^3.0.10",
     "awesome-typescript-loader": "^3.2.3",
+    "tape": "^4.8.0",
     "ts-node": "^3.3.0",
     "typescript": "^2.5.2",
     "webpack": "^3.5.5",

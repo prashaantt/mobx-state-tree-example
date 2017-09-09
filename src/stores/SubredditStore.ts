@@ -26,13 +26,13 @@ const RedditResponse = types.model({
 export const SubredditStore = types.model({
     subs: types.optional(types.map(types.array(StoryModel)), {}),
 }).actions(self => {
-    function* fetchSub(subreddit: string) {
+    function* fetchSub(subreddit: string, doFetch = fetch) {
         if (self.subs.get(subreddit)) {
             return;
         }
 
         try {
-            const sub: typeof RedditResponse.Type = yield fetch(`https://www.reddit.com/r/${subreddit}.json`)
+            const sub: typeof RedditResponse.Type = yield doFetch(`https://www.reddit.com/r/${subreddit}.json`)
                 .then(res => res.json());
             self.subs.set(subreddit, sub.data.children)
         } catch (e) {
