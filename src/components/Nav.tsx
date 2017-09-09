@@ -11,8 +11,6 @@ interface InjectedProps {
 
 export const Nav = inject("favouritesStore")(observer((props: {}) => {
     const injectedProps = props as InjectedProps;
-    const anyFavs = injectedProps.favouritesStore.starredInSub.
-        entries().some(entry => entry[1].starredPostIds.length > 0);
 
     return (
         <nav className="pt-navbar pt-fixed-top">
@@ -24,7 +22,7 @@ export const Nav = inject("favouritesStore")(observer((props: {}) => {
                 <NavButton name="React" link="/r/reactjs" />
                 <NavButton name="TypeScript" link="/r/typescript" />
                 <span className="pt-navbar-divider"></span>
-                <NavButton name="Favourites" link="/favourites" isStarred showStarred={ anyFavs } />
+                <NavButton name="Favourites" link="/favourites" isStarred showStarred={ injectedProps.favouritesStore.anyStarred } />
             </div>
             <div className="pt-navbar-group pt-align-right">
                 <StateNavigator direction="left" />

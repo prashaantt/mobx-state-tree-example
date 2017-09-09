@@ -7,7 +7,11 @@ const SubredditStars = types.model({
 
 export const FavouritesStore = types.model({
     starredInSub: types.map(SubredditStars)
-}).actions(self => ({
+}).views(self => ({
+    get anyStarred() {
+        return Array.from(self.starredInSub.values()).some(subStars => subStars.starredPostIds.length > 0);
+    }
+})).actions(self => ({
     toggleStar(subreddit: string, postId: string) {
         const favourites = self.starredInSub.get(subreddit);
         if (favourites) {
