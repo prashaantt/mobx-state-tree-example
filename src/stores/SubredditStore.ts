@@ -24,7 +24,7 @@ const RedditResponse = types.model({
 });
 
 export const SubredditStore = types.model({
-    subs: types.map(types.array(StoryModel)),
+    subs: types.optional(types.map(types.array(StoryModel)), {}),
 }).actions(self => {
     function* fetchSub(subreddit: string) {
         if (self.subs.get(subreddit)) {

@@ -2,7 +2,7 @@ import { types } from "mobx-state-tree";
 import { TimeTraveller } from "./TimeTraveller";
 
 const SubredditStars = types.model({
-    starredPostIds: types.array(types.string)
+    starredPostIds: types.optional(types.array(types.string), [])
 });
 
 export const FavouritesStore = types.model({
